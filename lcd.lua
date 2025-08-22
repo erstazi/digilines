@@ -250,6 +250,12 @@ local spawn_entity = function(pos)
 end
 
 local on_digiline_receive = function(pos, _, channel, msg)
+	if type(msg) == "table" and msg.name and msg.count then
+		msg = msg.name .. " " .. msg.count
+	elseif type(msg) == "table" or type(msg) == "function" then
+		return
+	end
+
 	local meta = minetest.get_meta(pos)
 	local setchan = meta:get_string("channel")
 	if setchan ~= channel then return end
